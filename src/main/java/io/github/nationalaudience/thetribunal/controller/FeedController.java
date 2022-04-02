@@ -8,6 +8,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.github.nationalaudience.thetribunal.entity.User;
@@ -27,10 +28,10 @@ public class FeedController {
         this.reviewRepository = reviewRepository;
     }
 
-    @GetMapping(value = "feed")
-    public ResponseEntity<List<FeedResponse>> generateFeed() {
+    @PostMapping(value = "feed")
+    public ResponseEntity<List<FeedResponse>> generateFeed(@RequestBody String loggedUser) {
         // Get logged user
-        var user = userRepository.findByUsername("asd");
+        var user = userRepository.findByUsername(loggedUser);
 
         if (user.isPresent()) {
             List<User> usersFollow = user.get().getUsersFollow();
